@@ -1,34 +1,41 @@
-# El horror có(s)mico — Archivo sonoro
+El horror có(s)mico — Buscador visual
 
-Buscador visual del podcast, conectado en vivo a Supabase.
+Interfaz de búsqueda visual para el podcast de terror **[El horror có(s)mico](https://horror-cosmico-app-vvbi.vercel.app/)**, conectada en vivo a una base de datos relacional en Supabase con más de 260 episodios catalogados.
 
-## Desplegar en Vercel (recomendado, gratis)
+🔗 **Demo en vivo:** [horror-cosmico-app-vvbi.vercel.app](https://horror-cosmico-app-vvbi.vercel.app/)
 
-### Opción A — sin usar terminal, arrastrando la carpeta
-1. Entra en https://vercel.com y crea una cuenta (puedes usar tu email o GitHub).
-2. En el panel, pulsa **Add New → Project**.
-3. Elige **"Deploy without Git"** (o similar) y arrastra esta carpeta completa (`horror-cosmico-app`) — o comprímela en `.zip` primero si te lo pide así.
-4. Vercel detecta automáticamente que es un proyecto Vite. Deja los ajustes por defecto y pulsa **Deploy**.
-5. En 1-2 minutos te da una URL pública tipo `https://horror-cosmico-app.vercel.app`.
+Qué hace
 
-### Opción B — con GitHub (mejor para actualizaciones futuras)
-1. Crea un repositorio nuevo en GitHub y sube esta carpeta (puedes arrastrar los archivos directamente en la web de GitHub, sin usar git en terminal).
-2. En Vercel: **Add New → Project → Import Git Repository**, elige ese repositorio.
-3. Deploy. Cada vez que subas cambios al repositorio, Vercel lo volverá a publicar solo.
+Permite explorar el archivo completo del podcast — episodios, personas citadas, temas tratados y obras referenciadas — sin depender de un buscador de texto plano, consultando directamente el esquema relacional del proyecto en tiempo real.
 
-## Probarlo en tu ordenador antes de publicar (opcional)
+Stack
 
-Necesitas [Node.js](https://nodejs.org) instalado (versión 18 o superior).
+- **React + Vite** — interfaz y bundling
+- **Supabase (PostgreSQL)** — base de datos y API en tiempo real
+- **Vercel** — despliegue continuo
+
+Proyecto relacionado
+
+Este front-end consume el esquema definido en [`horror-cosmico-database`](enlace-cuando-lo-crees), donde está el diseño relacional completo (17 tablas: episodios, personas, temas, secciones, obras citadas y videojuegos referenciados).
+
+Estructura
+
+
+Desarrollo local
+
+Requiere [Node.js](https://nodejs.org/) 18 o superior.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abre la URL que te indique la terminal (normalmente `http://localhost:5173`).
+La app se sirve por defecto en `http://localhost:5173`.
 
-## Estructura
+Despliegue
 
-- `src/App.jsx` — el componente del buscador (el mismo que ya conoces, sin cambios).
-- `src/main.jsx` — punto de entrada de React.
-- Las credenciales de Supabase (`SUPABASE_URL`, `SUPABASE_ANON_KEY`) están dentro de `src/App.jsx`. Son la clave pública (`anon`/`publishable`), segura de tener en el código del cliente.
+El proyecto está configurado para desplegar en Vercel con cero configuración adicional (detecta Vite automáticamente). Cualquier fork o clon puede desplegarse conectando el repo en [vercel.com](https://vercel.com) → *Add New → Project → Import Git Repository*.
+
+Notas de seguridad
+
+Las credenciales de Supabase (`SUPABASE_URL`, `SUPABASE_ANON_KEY`) están en `src/App.jsx`. Son la clave pública (`anon`/`publishable`) de Supabase, diseñada para exponerse en código de cliente — el acceso real a los datos se controla vía Row Level Security en la base de datos, no ocultando esta clave.
